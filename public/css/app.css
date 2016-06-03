@@ -3,3 +3,15 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+
+.brandimg {
+	width: 107px;
+	height: 80px;
+	overflow: hidden;
+}
+.navbar-header{
+	height: 100px;
+}
+.navbar-brand{
+	height: 100px;
+}

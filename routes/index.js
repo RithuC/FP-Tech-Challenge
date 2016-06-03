@@ -10,10 +10,12 @@ router.use(api);
 
 router.get('/', function(req, res) {
 	res.render('index');
+	console.log('in index');
 });
 
 router.get('*', function (req, res) {
 	res.redirect('/');
+	console.log('in *');
 });
 
 module.exports = router;
