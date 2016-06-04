@@ -9,48 +9,46 @@ html.
 	</head>
 	<body>
 		<div ng-controller="AppCtrl" ng-cloak></div>
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="https://www.freshprintsshop.com/">
-						<div class="brandimg">
-							<img alt="Brand" src="https://www.freshprintsshop.com/assets/images/logo.svg">
-						</div>
-					</a>
-					<h1>The Quoter</h1>
-				</div>
-			</div>
-		</nav>
+		<div class="row">
+		<div class="brandimg">
+			<img alt="Brand" src="https://www.freshprintsshop.com/assets/images/logo.svg" href="https://www.freshprintsshop.com/"=>
+		</div>
+		</div>
+		<div class="title"> GET THE QUOTE! </div>
 		<div ng-app="myApp">
 			<div ng-controller="AppCtrl">
-				<form ng-submit="quote()" class = "fullForm">
+				<div class="row">
+				<form ng-submit="quote()" class = "fullForm form-horizontal" role="form">
 					<div class="form-group">
-						<label for="apparelCode">Style Code</label>
+						<label for="apparelCode">Please enter the Style Code:</label>
 						<input ng-model="apparelCode" type="code" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="apparelColour">Color Code</label>
+						<label for="apparelColour">Please enter the Color Code:</label>
 						<input ng-model="apparelColour" type="colour" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="apparelSize">Size Code</label>
+						<label for="apparelSize">Please enter the Size Code: </label>
 						<input ng-model="apparelSize" type="size" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="apparelQuantity">Quantity</label>
+						<label for="apparelQuantity">Please enter the Quantity:  </label>
 						<input ng-model="apparelQuantity" type="quantity" class="form-control">
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
+			</div>
 				<div class="hidden" id="final_display">
+					<div class="alert alert-success" role="alert">
 					<p class="lead"> The quote price per item will be ${{perItem}}.</p>
 					<p class = "lead"> The total price will be ${{finalPrice}}.</p>
+					</div>
 				</div>
 				<div class="hidden" id="errors">
+					<div class="alert alert-danger" role="alert">
 					<p class="lead">Sorry, we could not find any apparels matching the following details: </p>
 					<p class="lead">{{errorMsg}}</p>
-					<!--<p class="lead">Style Code: {{apparelCode}}</p>
-					<p class="lead">Style Code: {{apparelCode}}</p>-->
+					</div>
 				</div>
 			</div>
 		</div>

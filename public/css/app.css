@@ -3,15 +3,51 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
-
 .brandimg {
 	width: 107px;
 	height: 80px;
 	overflow: hidden;
+	display: inline-block;
+	text-align: center;
 }
-.navbar-header{
-	height: 100px;
+.row {
+	text-align: center;
+	background-position: left; 0px;
 }
-.navbar-brand{
-	height: 100px;
+.title {
+	margin-bottom: 30px;
+	font-size: xx-large;
+	color: #007cba;
+	text-align: center;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+.fullForm{
+	text-align: center;
+}
+.btn {
+	margin-top: 15px;
+	width: 120px;
+}
+.form-group{
+	margin-right: 0px!important;
+	margin-left: 0px!important;
+}
+.alert{
+	margin-top: 15px;
+	width: 60%;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+}
+input{
+	width: 250px!important;
+	display: inline!important;
+}
+label {
+	font-weight: normal!important;
+	width: 200px;
+	text-align: right;
+	padding-right: 10px;
+	color: #007cba;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }

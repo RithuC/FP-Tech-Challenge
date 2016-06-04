@@ -9,8 +9,11 @@ angular.module('myApp.controllers', []).
         $scope.colorCode;
 		$scope.apparelSize;
         $scope.sizeCode;
-		$scope.apparelQuantity;
+		$scope.apparelQuantity = 1;
         $scope.weight;
+        $scope.foundsr = false;
+        $scope.foundcc = false;
+        $scope.foundsc = false;
 
         $http.get('/api/apparel/:styleCode?').then(function(apparel, status) {
                 $scope.apparel = apparel.data;
@@ -18,66 +21,61 @@ angular.module('myApp.controllers', []).
         });        
 
 		$scope.quote = function() {
-    		//console.log( $scope.apparelCode);
-    		//console.log( $scope.apparelColour);
-    		//console.log( $scope.apparelSize);
-    		//console.log( $scope.apparelQuantity);
-            $scope.apparelCode = $scope.apparelCode.toUpperCase();
-            $scope.apparelColour = $scope.apparelColour.toUpperCase();
-            $scope.apparelSize = $scope.apparelSize.toUpperCase();
-            var foundsr = false;
-            var foundcc = false;
-            var foundsc = false;
-
+    		console.log( $scope.apparelCode);
+    		console.log( $scope.apparelColour);
+    		console.log( $scope.apparelSize);
+    		console.log( $scope.apparelQuantity);
+            if($scope.apparelCode !== undefined){
+                $scope.apparelCode = $scope.apparelCode.toUpperCase();
+            }
+            if ($scope.apparelColour !== undefined){
+                $scope.apparelColour = $scope.apparelColour.toUpperCase();
+            }
+            if( $scope.apparelSize !== undefined){
+                $scope.apparelSize = $scope.apparelSize.toUpperCase();
+            }
             $scope.apparel.forEach(function(item){
                 if(item.style_code === $scope.apparelCode){
-                    //console.log("it matches");
-                    //console.log(item.color_codes);
                     var ccodes = item.color_codes.split(";");
-                    //console.log(ccodes);
                     ccodes.forEach(function(item){
                         var temp = item.split(":");
                         temp.forEach(function(item, index){
                             if(item === $scope.apparelColour){
                                 $scope.colorCode = temp[index-2];
-                                foundcc = true;
-                                //console.log($scope.colorCode);
-                                //break;
+                                $scope.foundcc = true;
                             }
                         });
                     });
-                    //console.log(item.size_codes);
                     var scodes = item.size_codes.split(";");
-                    //console.log(scodes);
                     scodes.forEach(function(item){
                         var tempB = item.split(":");
                         tempB.forEach(function(item, index){
                             if(item === $scope.apparelSize){
                                 $scope.sizeCode = tempB[index-1];
-                                foundsc = true;
-                                //console.log($scope.sizeCode);
-                                //break;
+                                $scope.foundsc = true;
                             }
                         });
                     });
                     $scope.weight = item.weight;
-                    foundsr = true;
-                    //break;
-                }
-                if(!foundsr){
-                    $scope.errorMsg = "Style Code: "+($scope.apparelCode === undefined ? "Empty field" : $scope.apparelCode);
-                    document.getElementById("errors").className = "show";
-                }
-                else if(!foundcc){
-                    $scope.errorMsg = "Color Code: "+($scope.apparelColour === undefined ? "Empty field" : $scope.apparelColour);
-                    document.getElementById("errors").className = "show";
-                }
-                else if(!foundsc){
-                    $scope.errorMsg = "Size Code: "+($scope.apparelSize === undefined ? "Empty field" : $scope.apparelSize);
-                    document.getElementById("errors").className = "show";
+                    $scope.foundsr = true;
                 }
             });
-            if(foundsr && foundcc && foundsc){
+            if(!$scope.foundsr){
+                $scope.errorMsg = "Style Code: "+($scope.apparelCode === undefined ? "Empty field" : $scope.apparelCode);
+                document.getElementById("errors").className = "show";
+                document.getElementById('final_display').className = "hidden";
+            }
+            else if(!$scope.foundcc){
+                $scope.errorMsg = "Color Code: "+($scope.apparelColour === undefined ? "Empty field" : $scope.apparelColour);
+                document.getElementById("errors").className = "show";
+                document.getElementById('final_display').className = "hidden";
+            }
+            else if(!$scope.foundsc){
+                $scope.errorMsg = "Size Code: "+($scope.apparelSize === undefined ? "Empty field" : $scope.apparelSize);
+                document.getElementById("errors").className = "show";
+                document.getElementById('final_display').className = "hidden";
+            }
+            if($scope.foundsr && $scope.foundcc && $scope.foundsc){
                 var info = {sr: $scope.apparelCode, cc: $scope.colorCode, sc: $scope.sizeCode};
                 $http.post('/api/quote', info).then(function(price, status) {
                     console.log(Number(price.data));
@@ -120,6 +118,9 @@ angular.module('myApp.controllers', []).
                     document.getElementById('final_display').className = "nothidden";
 
                 });
+                $scope.foundsc = false;
+                $scope.foundsr = false;
+                $scope.foundcc = false;
             }
 
   		};
