@@ -14,17 +14,14 @@ angular.module('myApp.controllers', []).
         $scope.foundsr = false;
         $scope.foundcc = false;
         $scope.foundsc = false;
+        $scope.loading = true;
 
+        // GETTING THE LIST OF APPAREL
         $http.get('/api/apparel/:styleCode?').then(function(apparel, status) {
                 $scope.apparel = apparel.data;
-                //console.log($scope.apparel);
         });        
 
 		$scope.quote = function() {
-    		console.log( $scope.apparelCode);
-    		console.log( $scope.apparelColour);
-    		console.log( $scope.apparelSize);
-    		console.log( $scope.apparelQuantity);
             if($scope.apparelCode !== undefined){
                 $scope.apparelCode = $scope.apparelCode.toUpperCase();
             }
@@ -34,9 +31,11 @@ angular.module('myApp.controllers', []).
             if( $scope.apparelSize !== undefined){
                 $scope.apparelSize = $scope.apparelSize.toUpperCase();
             }
+            // ITERATING THROUGH THE APPAREL LIST, CHECKING FOR STYLE CODE MATCH
             $scope.apparel.forEach(function(item){
                 if(item.style_code === $scope.apparelCode){
                     var ccodes = item.color_codes.split(";");
+                    // CHECKING FOR COLOR CODE MATCH
                     ccodes.forEach(function(item){
                         var temp = item.split(":");
                         temp.forEach(function(item, index){
@@ -47,6 +46,7 @@ angular.module('myApp.controllers', []).
                         });
                     });
                     var scodes = item.size_codes.split(";");
+                    // CHECKING FOR SIZE CODE MATCH
                     scodes.forEach(function(item){
                         var tempB = item.split(":");
                         tempB.forEach(function(item, index){
@@ -60,6 +60,7 @@ angular.module('myApp.controllers', []).
                     $scope.foundsr = true;
                 }
             });
+            // HANDLING INVALID INPUT
             if(!$scope.foundsr){
                 $scope.errorMsg = "Style Code: "+($scope.apparelCode === undefined ? "Empty field" : $scope.apparelCode);
                 document.getElementById("errors").className = "show";
@@ -75,10 +76,15 @@ angular.module('myApp.controllers', []).
                 document.getElementById("errors").className = "show";
                 document.getElementById('final_display').className = "hidden";
             }
+            // CALCULATING THE COST
             if($scope.foundsr && $scope.foundcc && $scope.foundsc){
                 var info = {sr: $scope.apparelCode, cc: $scope.colorCode, sc: $scope.sizeCode};
+                document.getElementById('final_display').className = "hidden";
+                document.getElementById('errors').className = "hidden";
+                document.getElementById("loading").className = "show";
+                // GRABBING THE PRICE
                 $http.post('/api/quote', info).then(function(price, status) {
-                    console.log(Number(price.data));
+                    $scope.loading = false;
                     $scope.basicPrice = Number(price.data);
                     $scope.totalBasicPrice = $scope.basicPrice*$scope.apparelQuantity;
                     var shipping;
@@ -101,11 +107,11 @@ angular.module('myApp.controllers', []).
                             shipping = 0.25 * $scope.apparelQuantity;
                         }
                     }
-                    // Adding Shipping Cost to Price
+                    // ADDING SHIPPING COST TO PRICE
                     $scope.finalPriceShipping = $scope.totalBasicPrice+shipping;
-                    // Adding Salesmean Compensation to Price
+                    // ADDING SALESMAN COMPENSATION TO PRICE
                     $scope.finalPriceComp = 1.07 * $scope.finalPriceShipping;
-                    // Final Markup
+                    // FINAL MARKUP
                     if($scope.finalPriceComp <= 800){
                         $scope.finalPrice = (1.50 * $scope.finalPriceComp).toFixed(2);
                     }
@@ -115,6 +121,7 @@ angular.module('myApp.controllers', []).
                     $scope.finalPricePerItem = $scope.finalPrice/$scope.apparelQuantity;
                     $scope.perItem = ($scope.finalPricePerItem).toFixed(2);
                     document.getElementById('errors').className = "hidden";
+                    document.getElementById("loading").className = "hidden";
                     document.getElementById('final_display').className = "nothidden";
 
                 });

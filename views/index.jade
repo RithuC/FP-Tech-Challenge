@@ -8,46 +8,50 @@ html.
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	</head>
 	<body>
-		<div ng-controller="AppCtrl" ng-cloak></div>
 		<div class="row">
-		<div class="brandimg">
-			<img alt="Brand" src="https://www.freshprintsshop.com/assets/images/logo.svg" href="https://www.freshprintsshop.com/"=>
-		</div>
+			<div class="brandimg">
+				<img alt="Brand" src="https://www.freshprintsshop.com/assets/images/logo.svg" href="https://www.freshprintsshop.com/"=>
+			</div>
 		</div>
 		<div class="title"> GET THE QUOTE! </div>
 		<div ng-app="myApp">
 			<div ng-controller="AppCtrl">
 				<div class="row">
-				<form ng-submit="quote()" class = "fullForm form-horizontal" role="form">
-					<div class="form-group">
-						<label for="apparelCode">Please enter the Style Code:</label>
-						<input ng-model="apparelCode" type="code" class="form-control">
-					</div>
-					<div class="form-group">
-						<label for="apparelColour">Please enter the Color Code:</label>
-						<input ng-model="apparelColour" type="colour" class="form-control">
-					</div>
-					<div class="form-group">
-						<label for="apparelSize">Please enter the Size Code: </label>
-						<input ng-model="apparelSize" type="size" class="form-control">
-					</div>
-					<div class="form-group">
-						<label for="apparelQuantity">Please enter the Quantity:  </label>
-						<input ng-model="apparelQuantity" type="quantity" class="form-control">
-					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
-				</form>
-			</div>
+					<form ng-submit="quote()" class = "fullForm form-horizontal" role="form">
+						<div class="form-group">
+							<label for="apparelCode">Please enter the Style Code:</label>
+							<input ng-model="apparelCode" type="code" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="apparelColour">Please enter the Color Code:</label>
+							<input ng-model="apparelColour" type="colour" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="apparelSize">Please enter the Size Code: </label>
+							<input ng-model="apparelSize" type="size" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="apparelQuantity">Please enter the Quantity:  </label>
+							<input ng-model="apparelQuantity" type="quantity" class="form-control">
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</div>
 				<div class="hidden" id="final_display">
 					<div class="alert alert-success" role="alert">
-					<p class="lead"> The quote price per item will be ${{perItem}}.</p>
-					<p class = "lead"> The total price will be ${{finalPrice}}.</p>
+						<p class="lead"> The quote price per item will be ${{perItem}}.</p>
+						<p class = "lead"> The total price will be ${{finalPrice}}.</p>
 					</div>
 				</div>
 				<div class="hidden" id="errors">
 					<div class="alert alert-danger" role="alert">
-					<p class="lead">Sorry, we could not find any apparels matching the following details: </p>
-					<p class="lead">{{errorMsg}}</p>
+						<p class="lead">Sorry, we could not find any apparels matching the following details: </p>
+						<p class="lead">{{errorMsg}}</p>
+					</div>
+				</div>
+				<div class="hidden" id="loading">
+					<div class="alert alert-info" role="alert">
+						<p class="lead"> Calculating...</p>
 					</div>
 				</div>
 			</div>

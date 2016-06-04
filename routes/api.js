@@ -32,9 +32,11 @@ api.post('/api/quote', function(req, res) {
 var getApparelPrice = function getPrice(style_code, color_code, size_code) {
 	var	apparelPriceDeferred = q.defer();
 	// Format the Inventory API endpoint as explained in the documentation
+	
 	var getLink = "https://www.alphashirt.com/cgi-bin/online/xml/inv-request.w?sr="
 					+style_code+"&cc="+color_code+"&sc="+size_code+
 					"&pr=y&zp=10002&userName=triggered1111&password=triggered2222";
+
 	https.get(getLink, function(res) {
 		res.on('data', function (data) {
 			// Parse response XML data here
